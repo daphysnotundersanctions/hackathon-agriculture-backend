@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import { db } from "../db.js";
 
-export const Plants = await db.define("Plants", {
+export const Plants = db.define("Plants", {
   requestId: {
     type: DataTypes.INTEGER,
     unique: true,
