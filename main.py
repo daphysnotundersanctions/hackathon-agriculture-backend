@@ -11,53 +11,53 @@ if TYPE_CHECKING:
 app = _fastapi.FastAPI()
 
 
-@app.post("/api/contacts/", response_model=_schemas.Contact)
-async def create_contact(
-    contact: _schemas.CreateContact,
+@app.post("/api/plantInfo/", response_model=_schemas.Contact)
+async def create_plantInfo(
+    plantInfo: _schemas.CreateContact,
     db: _orm.Session = _fastapi.Depends(_services.get_db),
 ):
-    return await _services.create_contact(contact=contact, db=db)
+    return await _services.create_plantInfo(plantInfo=plantInfo, db=db)
 
 
-@app.get("/api/contacts/", response_model=List[_schemas.Contact])
-async def get_contacts(db: _orm.Session = _fastapi.Depends(_services.get_db)):
-    return await _services.get_all_contacts(db=db)
+@app.get("/api/plantInfo/", response_model=List[_schemas.Contact])
+async def get_plantInfo(db: _orm.Session = _fastapi.Depends(_services.get_db)):
+    return await _services.get_all_plantInfo(db=db)
 
 
-@app.get("/api/contacts/{contact_id}/", response_model=_schemas.Contact)
-async def get_contact(
-    contact_id: int, db: _orm.Session = _fastapi.Depends(_services.get_db)
+@app.get("/api/plantInfo/{plantInfo_id}/", response_model=_schemas.Contact)
+async def get_plantInfo(
+    plantInfo_id: int, db: _orm.Session = _fastapi.Depends(_services.get_db)
 ):
-    contact = await _services.get_contact(db=db, contact_id=contact_id)
-    if contact is None:
+    plantInfo = await _services.get_plantInfo(db=db, plantInfo_id=plantInfo_id)
+    if plantInfo is None:
         raise _fastapi.HTTPException(status_code=404, detail="Contact does not exist")
 
-    return contact
+    return plantInfo
 
 
-@app.delete("/api/contacts/{contact_id}/")
-async def delete_contact(
-    contact_id: int, db: _orm.Session = _fastapi.Depends(_services.get_db)
+@app.delete("/api/plantInfos/{plantInfo_id}/")
+async def delete_plantInfo(
+    plantInfo_id: int, db: _orm.Session = _fastapi.Depends(_services.get_db)
 ):
-    contact = await _services.get_contact(db=db, contact_id=contact_id)
-    if contact is None:
-        raise _fastapi.HTTPException(status_code=404, detail="Contact does not exist")
+    plantInfo = await _services.get_plantInfo(db=db, plantInfo_id=plantInfo_id)
+    if plantInfo is None:
+        raise _fastapi.HTTPException(status_code=404, detail="plantInfo does not exist")
 
-    await _services.delete_contact(contact, db=db)
+    await _services.delete_plantInfo(plantInfo, db=db)
 
     return "successfully deleted the user"
 
 
-@app.put("/api/contacts/{contact_id}/", response_model=_schemas.Contact)
-async def update_contact(
-    contact_id: int,
-    contact_data: _schemas.CreateContact,
+@app.put("/api/plantInfo/{plantInfo_id}/", response_model=_schemas.Contact)
+async def update_plantInfo(
+    plantInfo_id: int,
+    plantInfo_data: _schemas.CreateContact,
     db: _orm.Session = _fastapi.Depends(_services.get_db),
 ):
-    contact = await _services.get_contact(db=db, contact_id=contact_id)
-    if contact is None:
-        raise _fastapi.HTTPException(status_code=404, detail="Contact does not exist")
+    plantInfo = await _services.get_plantInfo(db=db, plantInfo_id=plantInfo_id)
+    if plantInfo is None:
+        raise _fastapi.HTTPException(status_code=404, detail="plantInfo does not exist")
 
-    return await _services.update_contact(
-        contact_data=contact_data, contact=contact, db=db
+    return await _services.update_plantInfo(
+        plantInfo_data=plantInfo_data, plantInfo=plantInfo, db=db
     )

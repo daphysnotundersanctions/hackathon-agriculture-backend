@@ -21,40 +21,40 @@ def get_db():
         db.close()
 
 
-async def create_contact(
-    contact: _schemas.CreateContact, db: "Session"
+async def create_plantInfo(
+    plantInfo: _schemas.CreateContact, db: "Session"
 ) -> _schemas.Contact:
-    contact = _models.Contact(**contact.dict())
-    db.add(contact)
+    plantInfo = _models.Contact(**plantInfo.dict())
+    db.add(plantInfo)
     db.commit()
-    db.refresh(contact)
-    return _schemas.Contact.from_orm(contact)
+    db.refresh(plantInfo)
+    return _schemas.Contact.from_orm(plantInfo)
 
 
-async def get_all_contacts(db: "Session") -> List[_schemas.Contact]:
-    contacts = db.query(_models.Contact).all()
-    return list(map(_schemas.Contact.from_orm, contacts))
+async def get_all_plantInfo(db: "Session") -> List[_schemas.Contact]:
+    plantInfo = db.query(_models.Contact).all()
+    return list(map(_schemas.Contact.from_orm, plantInfo))
 
 
-async def get_contact(contact_id: int, db: "Session"):
-    contact = db.query(_models.Contact).filter(_models.Contact.id == contact_id).first()
-    return contact
+async def get_plantInfo(plantInfo_id: int, db: "Session"):
+    plantInfo = db.query(_models.Contact).filter(_models.Contact.id == plantInfo_id).first()
+    return plantInfo
 
 
-async def delete_contact(contact: _models.Contact, db: "Session"):
-    db.delete(contact)
+async def delete_plantInfo(plantInfo: _models.Contact, db: "Session"):
+    db.delete(plantInfo)
     db.commit()
 
 
-async def update_contact(
-    contact_data: _schemas.CreateContact, contact: _models.Contact, db: "Session"
+async def update_plantInfo(
+    plantInfo_data: _schemas.CreateContact, plantInfo: _models.Contact, db: "Session"
 ) -> _schemas.Contact:
-    contact.first_name = contact_data.first_name
-    contact.last_name = contact_data.last_name
-    contact.email = contact_data.email
-    contact.phone_number = contact_data.phone_number
+    plantInfo.first_name = plantInfo_data.first_name
+    plantInfo.last_name = plantInfo_data.last_name
+    plantInfo.temperature = plantInfo_data.temperature
+    plantInfo.humidity = plantInfo_data.humidity
 
     db.commit()
-    db.refresh(contact)
+    db.refresh(plantInfo)
 
-    return _schemas.Contact.from_orm(contact)
+    return _schemas.Contact.from_orm(plantInfo)
